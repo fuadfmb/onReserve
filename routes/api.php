@@ -49,15 +49,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/companies/{company_id}', [CompanyController::class, 'editCompany']);
     // Company : delete
     Route::delete('/companies/{company_id}', [CompanyController::class, 'deleteCompany']);
-    
+
     // Profile ///////////////////////////////////////////////////////////////
     Route::post('/profile/edit', [ProfileController::class, 'editProfile']);
     Route::post('/profile/get', [ProfileController::class, 'getProfile']);
 
     //  ///////////////////////////////////////////////////////////////
 
-
-
+    
 
 
 

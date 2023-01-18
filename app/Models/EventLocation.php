@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class EventLocation extends Model
 {
 
-
+    protected $fillable = [
+        'city', 'street', 'venue', 'latitude', 'longitude'
+    ];
 
 
 

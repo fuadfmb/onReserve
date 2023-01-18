@@ -15,15 +15,15 @@ class CreateEventLocationsTable extends Migration
     {
         Schema::create('event_locations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('event');
+            $table->bigInteger('event_id')->unique();
             $table->string('city');
             $table->string('street');
             $table->string('venue');
             $table->float('latitude');
             $table->float('longitude');
             $table->timestamps();
-            
-            $table->foreign('event')->references('id')->on('events')->onDelete('cascade');
+
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
         });
     }
 
