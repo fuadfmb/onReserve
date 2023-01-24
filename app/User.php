@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Booking;
 use App\Models\Company;
 use App\Models\Event;
 use App\Models\Profile;
@@ -57,5 +58,10 @@ class User extends Authenticatable
     public function events()
     {
         return $this->hasmany(Event::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasmany(Booking::class);
     }
 }

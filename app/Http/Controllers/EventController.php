@@ -175,4 +175,10 @@ class EventController extends Controller
     {
         return Event::findorfail($event_id);
     }
+
+
+
+
+
+    //
 }

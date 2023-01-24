@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookingHistory extends Model
 {
-    
 
+    protected $fillable = [
+        'booking_id', 'user_id'
+    ];
 
 
     public function user()
@@ -19,5 +21,4 @@ class BookingHistory extends Model
     {
         return $this->belongsTo(Booking::class);
     }
-
 }
