@@ -19,7 +19,9 @@ class CreateBookingsTable extends Migration
             $table->bigInteger('event_id');
             $table->boolean('completed');
             $table->string('booking_token');
-            $table->string('pdf');
+            $table->string('qrcode');
+            $table->integer('economy_count');
+            $table->integer('vip_count');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

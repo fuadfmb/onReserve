@@ -15,12 +15,12 @@ class CreateBookingHistoriesTable extends Migration
     {
         Schema::create('booking_histories', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user');
-            $table->bigInteger('reservation');
+            $table->bigInteger('user_id');
+            $table->bigInteger('booking_id');
             $table->timestamps();
 
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('reservation')->references('id')->on('bookings')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
         });
     }
 

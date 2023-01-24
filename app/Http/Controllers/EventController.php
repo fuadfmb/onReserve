@@ -18,6 +18,8 @@ class EventController extends Controller
     public function createEvent(Request $request)
     {
         $fields = $request->validate([
+            // 'images' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'images' => 'required',
             'company_id' => 'required',
             'title' => 'required',
             'desc' => 'required',
@@ -29,19 +31,29 @@ class EventController extends Controller
             'venue' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'approved_by' => 'required',
+            'economy_seats' => 'required',
+            'economy_price' => 'required',
+            'vip_seats' => 'required',
+            'vip_price' => 'required'
         ]);
 
+        // return $fields['economy_price'];
+
+        // create event first
         $event = Event::create([
             'user_id' => auth()->user()->id,
             'company_id' => $fields['company_id'],
             'approved' => true,
-            'approved_by' => $fields['approved_by'],
+            'approved_by' => 1,
             'title' => $fields['title'],
             'desc' => $fields['desc'],
             'event_start_time' => $fields['event_start_time'],
             'event_end_time' => $fields['event_end_time'],
-            'event_deadline' => $fields['event_deadline']
+            'event_deadline' => $fields['event_deadline'],
+            'economy_seats' => $fields['economy_price'],
+            'economy_price' => $fields['economy_price'],
+            'vip_seats' => $fields['vip_seats'],
+            'vip_price' => $fields['vip_price'],
         ]);
 
         $location = $event->location()->create([
@@ -52,11 +64,24 @@ class EventController extends Controller
             'longitude' => $fields['longitude']
         ]);
 
+        // upload images to that event
+        foreach ($request->file('images') as $mimage) {
+            $image_path = $mimage->store('image', 'public');
+            $upload = $event->gallery()->create([
+                'event_id' => $event->id,
+                'event_photo' => $image_path
+            ]);
+        }
+
+        // get current event
+        $event = Event::find($event->id);
+
         $response = [
             'response' => 201,
             'message' => 'Event created successfully !',
             'event' => $event,
-            'event_location' => $location
+            'event_gallery' => $event->gallery,
+            'event_location' => $event->location,
         ];
 
         return response($response, 201);
@@ -65,6 +90,7 @@ class EventController extends Controller
     public function editEvent(Request $request, $event_id)
     {
         $fields = $request->validate([
+            'images' => 'required',
             'company_id' => 'required',
             'title' => 'required',
             'desc' => 'required',
@@ -76,20 +102,27 @@ class EventController extends Controller
             'venue' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'approved_by' => 'required',
+            'economy_seats' => 'required',
+            'economy_price' => 'required',
+            'vip_seats' => 'required',
+            'vip_price' => 'required'
         ]);
 
         $current_event = Event::find($event_id);
         $current_event->update([
-            'user_id' => auth()->user()->id,
+            // 'user_id' => auth()->user()->id,
             'company_id' => $fields['company_id'],
             'approved' => true,
-            'approved_by' => $fields['approved_by'],
+            'approved_by' => 1,
             'title' => $fields['title'],
             'desc' => $fields['desc'],
             'event_start_time' => $fields['event_start_time'],
             'event_end_time' => $fields['event_end_time'],
-            'event_deadline' => $fields['event_deadline']
+            'event_deadline' => $fields['event_deadline'],
+            'economy_seats' => $fields['economy_price'],
+            'economy_price' => $fields['economy_price'],
+            'vip_seats' => $fields['vip_seats'],
+            'vip_price' => $fields['vip_price'],
         ]);
         $location = $current_event->location()->update([
             'city' => $fields['city'],
@@ -99,17 +132,25 @@ class EventController extends Controller
             'longitude' => $fields['longitude']
         ]);
 
+        // TODO : remove all event photos or give users a permission..!
+
+
+        // upload images to that event
+        foreach ($request->file('images') as $mimage) {
+            $image_path = $mimage->store('image', 'public');
+            $upload = $current_event->gallery()->create([
+                'event_id' => $current_event->id,
+                'event_photo' => $image_path
+            ]);
+        }
+
         $response = [
             'response' => 201,
             'message' => 'Event updated successfully !',
             'event' => $current_event,
-            'event_location' => [
-                'city' => $fields['city'],
-                'street' => $fields['street'],
-                'venue' => $fields['venue'],
-                'latitude' => $fields['latitude'],
-                'longitude' => $fields['longitude']
-            ]
+            'event_gallery' => $current_event->gallery,
+            'event_location' => $current_event->location,
+
         ];
 
         return response($response, 201);

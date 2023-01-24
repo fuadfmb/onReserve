@@ -24,8 +24,11 @@ class CreateEventsTable extends Migration
             $table->dateTime('event_end_time', 0);
             $table->dateTime('event_deadline', 0);
             $table->boolean('approved');
-            $table->bigInteger('approved_by');
-
+            $table->bigInteger('approved_by')->nullable();
+            $table->integer('economy_seats');
+            $table->integer('economy_price');
+            $table->integer('vip_seats');
+            $table->integer('vip_price');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

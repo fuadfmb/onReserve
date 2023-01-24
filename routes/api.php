@@ -54,9 +54,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/profile/edit', [ProfileController::class, 'editProfile']);
     Route::post('/profile/get', [ProfileController::class, 'getProfile']);
 
-    //  ///////////////////////////////////////////////////////////////
+    // Booking ///////////////////////////////////////////////////////////////
 
-    
 
 
 

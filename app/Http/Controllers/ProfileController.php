@@ -14,8 +14,11 @@ class ProfileController extends Controller
             'profile_pic' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'bio' => 'required',
         ]);
-
+        
         $user = User::find(auth()->user()->id);
+
+        // $path = $file->store('public/files');
+        // $name = $file->getClientOriginalName();
 
         $image_path = $request->file('profile_pic')->store('image', 'public');
 
@@ -31,7 +34,9 @@ class ProfileController extends Controller
                 'profile_pic' => $image_path,
                 'bio' => $field['bio'],
             ]);
+            $profile = $user->profile;
         }
+
         $response = [
             'response' => 200,
             'message' => 'Profile updated successfully !',

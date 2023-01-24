@@ -15,11 +15,11 @@ class CreateEventGalleriesTable extends Migration
     {
         Schema::create('event_galleries', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('event');
+            $table->bigInteger('event_id');
             $table->string('event_photo');
             $table->timestamps();
 
-            $table->foreign('event')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
         });
     }
 
