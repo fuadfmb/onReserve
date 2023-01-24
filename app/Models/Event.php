@@ -36,4 +36,9 @@ class Event extends Model
     {
         return $this->hasMany(EventGallery::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(EventReviews::class);
+    }
 }

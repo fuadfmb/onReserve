@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventReviewsController;
 use App\Http\Controllers\ProfileController;
 
 
@@ -63,13 +64,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/bookings/{id}', [BookingController::class, 'getBooking']); // get booking by ID
     Route::post('/bookings/{id}', [BookingController::class, 'editBooking']); // update booking
 
-    // x ///////////////////////////////////////////////////////////////
-    
+    // Event Reviews ///////////////////////////////////////////////////////////////
+    Route::get('/event/{id}/ratings/', [EventReviewsController::class, 'getReviews']); // get reviews
+    Route::post('/event/{id}/ratings/', [EventReviewsController::class, 'addReviews']); // add reviews
+    Route::post('/event/{id}/ratings/{rev_id}', [EventReviewsController::class, 'editReviews']); // edit review
+    Route::delete('/event/{id}/ratings/{rev_id}', [EventReviewsController::class, 'deleteReview']); // delete review
 
 
 
 
-    //
+
+    // 
 });
 
 
